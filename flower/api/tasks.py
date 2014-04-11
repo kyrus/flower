@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 import json
 import logging
+import jsonpickle
 
 from tornado import web
 from tornado.escape import json_decode
@@ -100,6 +101,6 @@ class ListTasks(BaseTaskHandler):
         tasks = {}
         for (id, task) in TaskModel.iter_tasks(app, limit=limit, type=type,
                                                worker=worker, state=state):
-            tasks[id] = task
+            tasks[id] = jsonpickle.encode(task)
 
         self.write(tasks)
